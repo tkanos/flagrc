@@ -6,10 +6,10 @@ if your request has an EntityId on it.
 
 If you use an EntityID, flagr will make sure that this ID will always receive the same variant. 
 So flagrc ask to the server.
-Otherwise flagrc, will act as an flagr evaluator :
+Otherwise flagrc, will act as a flagr evaluator :
 - Loading in Memory all flags
 - Do the evaluation of the request locally.
-- Load each EvalCacheRefreshInterval the Flags for computation
+- Refresh each EvalCacheRefreshInterval the Flags for computation
 
 flagrc uses all flagr function to act as a a real flagr Evaluator (except for EntityID).
 flagrc uses all goflagr signature.
