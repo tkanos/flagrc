@@ -30,7 +30,7 @@ func NewClient(cfg *goflagr.Configuration) Evaluator {
 
 	config.Config.EvalOnlyMode = true
 	config.Config.DBDriver = "json_http"
-	config.Config.DBConnectionStr = cfg.BasePath + "/flags?preload=true&enabled=true"
+	config.Config.DBConnectionStr = cfg.BasePath + "/export/eval_cache/json"
 
 	ec := handler.GetEvalCache()
 	ec.Start()
@@ -56,7 +56,7 @@ func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext
 
 	evalContext := models.EvalContext{
 		EnableDebug:   body.EnableDebug,
-		EntityContext: body.EntityContext,
+		EntityContext: *body.EntityContext,
 		EntityID:      body.EntityID,
 		EntityType:    body.EntityType,
 		FlagID:        body.FlagID,
@@ -89,7 +89,7 @@ func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.Evalua
 		for _, flagID := range flagIDs {
 			evalContext := models.EvalContext{
 				EnableDebug:   body.EnableDebug,
-				EntityContext: entity.EntityContext,
+				EntityContext: *entity.EntityContext,
 				EntityID:      entity.EntityID,
 				EntityType:    entity.EntityType,
 				FlagID:        flagID,
@@ -100,7 +100,7 @@ func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.Evalua
 		for _, flagKey := range flagKeys {
 			evalContext := models.EvalContext{
 				EnableDebug:   body.EnableDebug,
-				EntityContext: entity.EntityContext,
+				EntityContext: *entity.EntityContext,
 				EntityID:      entity.EntityID,
 				EntityType:    entity.EntityType,
 				FlagKey:       flagKey,
