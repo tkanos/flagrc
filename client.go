@@ -35,6 +35,12 @@ func NewClient(cfg *goflagr.Configuration) Evaluator {
 	ec := handler.GetEvalCache()
 	ec.Start()
 
+	if cfg.HTTPClient == nil {
+		cfg.HTTPClient = &http.Client{
+			Timeout: config.Config.EvalCacheRefreshTimeout,
+		}
+	}
+
 	e := evaluator{
 		client: goflagr.NewAPIClient(cfg),
 	}
