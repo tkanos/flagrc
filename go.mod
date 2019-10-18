@@ -9,7 +9,13 @@ require (
 	github.com/checkr/flagr v0.0.0-20191011165735-ba9c515eb979
 	github.com/checkr/goflagr v0.0.0-20190329233700-7518a104d303
 	github.com/davecgh/go-spew v1.1.1
+	github.com/eapache/go-resiliency v1.2.0 // indirect
+	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
+	github.com/eapache/queue v1.1.0 // indirect
 	github.com/gogo/protobuf v1.2.0 // indirect
+	github.com/golang/snappy v0.0.1 // indirect
 	github.com/jinzhu/gorm v1.9.11
+	github.com/pierrec/lz4 v2.3.0+incompatible // indirect
+	github.com/rcrowley/go-metrics v0.0.0-20190826022208-cac0b30c2563 // indirect
 	github.com/zhouzhuojie/conditions v0.0.0-20190705160302-784df330cb87
 )

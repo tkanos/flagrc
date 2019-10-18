@@ -31,6 +31,23 @@ flagrc uses all goflagr signature.
 	}
 ```
 
+## Benchmark
+
+Comparison between flagrc and goflagr :
+
+```
+$ go test -bench=.
+goos: linux
+goarch: amd64
+pkg: github.com/tkanos/flagrc
+BenchmarkGoFlagr_WithoutEntityID-8           100          19656778 ns/op
+BenchmarkGoFlagr_WithEntityID-8              100          19679028 ns/op
+BenchmarkFlagrc_WithoutEntityID-8         500000              3393 ns/op
+BenchmarkFlagrc_WithEntityID-8               100          19624108 ns/op
+PASS
+ok      github.com/tkanos/flagrc        7.779s
+```
+
 Todo : 
 - unit tests (how to mock client)
 - ask goflagr guys to have a review.
