@@ -12,7 +12,24 @@ Otherwise flagrc, will act as an flagr evaluator :
 - Load each EvalCacheRefreshInterval the Flags for computation
 
 flagrc uses all flagr function to act as a a real flagr Evaluator (except for EntityID).
+flagrc uses all goflagr signature.
 
+
+## Example 
+
+```
+    local := flagrc.NewClient(&goflagr.Configuration{
+		BasePath: "http://localhost:18000/api/v1",
+	})
+
+    var ec interface{}
+	ec = map[string]interface{}{"country": "ca"}
+	result, _, err := local.PostEvaluation(ctx, goflagr.EvalContext{FlagKey: "HelloWorldFlag", EntityContext: &ec})
+
+	if err == nil && result.VariantKey == "A" {
+		fmt.Println("Hello World")
+	}
+```golang
 
 Todo : 
 - unit tests (how to mock client)
