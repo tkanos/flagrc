@@ -29,7 +29,7 @@ flagrc uses all goflagr signature.
 	if err == nil && result.VariantKey == "A" {
 		fmt.Println("Hello World")
 	}
-```golang
+```
 
 Todo : 
 - unit tests (how to mock client)
