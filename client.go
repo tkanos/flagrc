@@ -69,7 +69,7 @@ func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext
 		FlagKey:       body.FlagKey,
 	}
 
-	evalResult := evalFlag(evalContext)
+	evalResult := handler.EvalFlag(evalContext)
 
 	return toGloflagrEvalResult(evalResult), nil, nil
 
@@ -100,7 +100,7 @@ func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.Evalua
 				EntityType:    entity.EntityType,
 				FlagID:        flagID,
 			}
-			evalResult := evalFlag(evalContext)
+			evalResult := handler.EvalFlag(evalContext)
 			results.EvaluationResults = append(results.EvaluationResults, toGloflagrEvalResult(evalResult))
 		}
 		for _, flagKey := range flagKeys {
@@ -111,7 +111,7 @@ func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.Evalua
 				EntityType:    entity.EntityType,
 				FlagKey:       flagKey,
 			}
-			evalResult := evalFlag(evalContext)
+			evalResult := handler.EvalFlag(evalContext)
 			results.EvaluationResults = append(results.EvaluationResults, toGloflagrEvalResult(evalResult))
 		}
 	}

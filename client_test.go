@@ -1,3 +1,5 @@
+//+build bench
+
 package flagrc
 
 import (

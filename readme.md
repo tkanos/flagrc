@@ -50,6 +50,4 @@ ok      github.com/tkanos/flagrc        7.779s
 
 Todo : 
 - unit tests (how to mock client)
-- ask goflagr guys to have a review.
 - cache in a map the entityId response - enabled by config (default false)
-- add local metrics

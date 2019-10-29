@@ -47,8 +47,8 @@ github.com/caarlos0/env v3.3.0+incompatible h1:jCfY0ilpzC2FFViyZyDKCxKybDESTwaR+
 github.com/caarlos0/env v3.3.0+incompatible/go.mod h1:tdCsowwCzMLdkqRYDlHpZCp2UooDD3MspDBjZ2AD02Y=
 github.com/certifi/gocertifi v0.0.0-20180118203423-deb3ae2ef261 h1:6/yVvBsKeAw05IUj4AzvrxaCnDjN4nUqKjW9+w5wixg=
 github.com/certifi/gocertifi v0.0.0-20180118203423-deb3ae2ef261/go.mod h1:GJKEexRPVJrBSOjoqN5VNOIKJ5Q3RViH6eu3puDRwx4=
-github.com/checkr/flagr v0.0.0-20191011165735-ba9c515eb979 h1:SDcCZFGelN6k4hQ+59Z6YJHFVvflxBI63E3ZrSsN+Bc=
-github.com/checkr/flagr v0.0.0-20191011165735-ba9c515eb979/go.mod h1:y/UwVerKMb3kUSiRRfwAypa2pPctQ8eDUlHmJ7wbf6k=
+github.com/checkr/flagr v0.0.0-20191028232858-2668d5cd2684 h1:x2cx2a2r2dc43vDH1nfAcGDmvwMSMtLHBgcruvX180c=
+github.com/checkr/flagr v0.0.0-20191028232858-2668d5cd2684/go.mod h1:y/UwVerKMb3kUSiRRfwAypa2pPctQ8eDUlHmJ7wbf6k=
 github.com/checkr/goflagr v0.0.0-20190329233700-7518a104d303 h1:FtYKBg7ndTB0pd+o6FB6l0rZiykvktQwuLMGbX7+FQI=
 github.com/checkr/goflagr v0.0.0-20190329233700-7518a104d303/go.mod h1:NqQHlTW/Prilqoh+inSta0P85btlqkgUTmf8qoPK/+g=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
