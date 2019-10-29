@@ -71,7 +71,7 @@ func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext
 
 	evalResult := handler.EvalFlag(evalContext)
 
-	return toGloflagrEvalResult(evalResult), nil, nil
+	return toGloflagrEvalResult(evalResult, body), nil, nil
 
 }
 
@@ -88,7 +88,7 @@ func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.Evalua
 	entities := body.Entities
 	flagIDs := body.FlagIDs
 	flagKeys := body.FlagKeys
-	results := &goflagr.EvaluationBatchResponse{}
+	results := goflagr.EvaluationBatchResponse{}
 
 	// TODO make it concurrent
 	for _, entity := range entities {
@@ -101,7 +101,13 @@ func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.Evalua
 				FlagID:        flagID,
 			}
 			evalResult := handler.EvalFlag(evalContext)
-			results.EvaluationResults = append(results.EvaluationResults, toGloflagrEvalResult(evalResult))
+			results.EvaluationResults = append(results.EvaluationResults, toGloflagrEvalResult(evalResult, goflagr.EvalContext{
+				EntityID:      entity.EntityID,
+				EntityType:    entity.EntityType,
+				EntityContext: entity.EntityContext,
+				EnableDebug:   body.EnableDebug,
+				FlagID:        flagID,
+			}))
 		}
 		for _, flagKey := range flagKeys {
 			evalContext := models.EvalContext{
@@ -112,14 +118,24 @@ func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.Evalua
 				FlagKey:       flagKey,
 			}
 			evalResult := handler.EvalFlag(evalContext)
-			results.EvaluationResults = append(results.EvaluationResults, toGloflagrEvalResult(evalResult))
+			results.EvaluationResults = append(results.EvaluationResults, toGloflagrEvalResult(evalResult, goflagr.EvalContext{
+				EntityID:      entity.EntityID,
+				EntityType:    entity.EntityType,
+				EntityContext: entity.EntityContext,
+				EnableDebug:   body.EnableDebug,
+				FlagKey:       flagKey,
+			}))
 		}
 	}
 
-	return goflagr.EvaluationBatchResponse{}, nil, nil
+	return results, nil, nil
 }
 
-func toGloflagrEvalResult(evalResult *models.EvalResult) goflagr.EvalResult {
+func toGloflagrEvalResult(evalResult *models.EvalResult, goflagrContext goflagr.EvalContext) goflagr.EvalResult {
+	if evalResult == nil {
+		return goflagr.EvalResult{}
+	}
+
 	return goflagr.EvalResult{
 		FlagID:            evalResult.FlagID,
 		FlagKey:           evalResult.FlagKey,
@@ -128,6 +144,26 @@ func toGloflagrEvalResult(evalResult *models.EvalResult) goflagr.EvalResult {
 		VariantID:         evalResult.VariantID,
 		VariantKey:        evalResult.VariantKey,
 		VariantAttachment: &evalResult.VariantAttachment,
+		EvalContext:       &goflagrContext,
 		Timestamp:         evalResult.Timestamp,
+		EvalDebugLog:      toGloflagrEvalDebugLog(evalResult.EvalDebugLog),
 	}
+}
+
+func toGloflagrEvalDebugLog(evalDebugLog *models.EvalDebugLog) *goflagr.EvalDebugLog {
+	if evalDebugLog == nil {
+		return nil
+	}
+	debugLog := goflagr.EvalDebugLog{
+		Msg: evalDebugLog.Msg,
+	}
+
+	for _, v := range evalDebugLog.SegmentDebugLogs {
+		debugLog.SegmentDebugLogs = append(debugLog.SegmentDebugLogs, goflagr.SegmentDebugLog{
+			SegmentID: v.SegmentID,
+			Msg:       v.Msg,
+		})
+	}
+
+	return &debugLog
 }
