@@ -27,7 +27,7 @@ flagrc uses all goflagr signature.
 	result, _, err := local.PostEvaluation(ctx, goflagr.EvalContext{FlagKey: "HelloWorldFlag", EntityContext: &ec})
 
 	if err == nil && result.VariantKey == "A" {
-		fmt.Println("Hello World")
+		fmt.Println("Hello Canada")
 	}
 ```
 
