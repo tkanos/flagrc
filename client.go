@@ -34,7 +34,9 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 		if r := recover(); r != nil {
 			once.Do(func() {
 				instance = &singleton{
-					Evaluator: &defaultEvaluator{},
+					Evaluator: &defaultEvaluator{
+						cfg: *cfg,
+					},
 				}
 			})
 			ev = instance
@@ -196,6 +198,7 @@ func toGloflagrEvalDebugLog(evalDebugLog *models.EvalDebugLog) *goflagr.EvalDebu
 }
 
 type defaultEvaluator struct {
+	cfg goflagr.Configuration
 }
 
 var ErrNoServerAvailable error = errors.New("Server is not available")
