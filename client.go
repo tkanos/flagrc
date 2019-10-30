@@ -2,6 +2,7 @@ package flagrc
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"sync"
 	"time"
@@ -28,7 +29,17 @@ type singleton struct {
 var once sync.Once
 var instance *singleton
 
-func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) Evaluator {
+func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (ev Evaluator) {
+	defer func() {
+		if r := recover(); r != nil {
+			once.Do(func() {
+				instance = &singleton{
+					Evaluator: &defaultEvaluator{},
+				}
+			})
+			ev = instance
+		}
+	}()
 
 	clienConfig := &ClientOptions{}
 
@@ -63,7 +74,9 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) Ev
 		}
 	})
 
-	return instance
+	ev = instance
+
+	return
 }
 
 type evaluator struct {
@@ -174,4 +187,17 @@ func toGloflagrEvalDebugLog(evalDebugLog *models.EvalDebugLog) *goflagr.EvalDebu
 	}
 
 	return &debugLog
+}
+
+type defaultEvaluator struct {
+}
+
+var ErrNoServerAvailable error = errors.New("Server is not available")
+
+func (e defaultEvaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext) (goflagr.EvalResult, *http.Response, error) {
+	return goflagr.EvalResult{}, nil, ErrNoServerAvailable
+}
+
+func (e defaultEvaluator) PostEvaluationBatch(ctx context.Context, body goflagr.EvaluationBatchRequest) (goflagr.EvaluationBatchResponse, *http.Response, error) {
+	return goflagr.EvaluationBatchResponse{}, nil, ErrNoServerAvailable
 }
