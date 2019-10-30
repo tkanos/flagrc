@@ -49,14 +49,14 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) Ev
 		client: goflagr.NewAPIClient(cfg),
 	}
 
-	return &e
+	return e
 }
 
 type evaluator struct {
 	client *goflagr.APIClient
 }
 
-func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext) (goflagr.EvalResult, *http.Response, error) {
+func (e evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext) (goflagr.EvalResult, *http.Response, error) {
 	// Evaluate locally
 	//https://github.com/checkr/flagr/blob/master/pkg/handler/eval.go
 
@@ -75,7 +75,7 @@ func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext
 
 }
 
-func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.EvaluationBatchRequest) (goflagr.EvaluationBatchResponse, *http.Response, error) {
+func (e evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.EvaluationBatchRequest) (goflagr.EvaluationBatchResponse, *http.Response, error) {
 	// EvaluateBatch locally
 	//https://github.com/checkr/flagr/blob/master/pkg/handler/eval.go
 
