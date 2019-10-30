@@ -55,18 +55,13 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 		config.Config.EvalCacheRefreshTimeout = clienConfig.EvalCacheRefreshTimeout
 	}
 
-	ec := handler.GetEvalCache()
-	ec.Start()
-
 	if cfg.HTTPClient == nil {
 		cfg.HTTPClient = &http.Client{
 			Timeout: config.Config.EvalCacheRefreshTimeout,
 		}
 	}
 
-	e := evaluator{
-		client: goflagr.NewAPIClient(cfg),
-	}
+	e := startEvaluation(cfg)
 
 	once.Do(func() {
 		instance = &singleton{
@@ -77,6 +72,17 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 	ev = instance
 
 	return
+}
+
+func startEvaluation(cfg *goflagr.Configuration) evaluator {
+	ec := handler.GetEvalCache()
+	ec.Start()
+
+	e := evaluator{
+		client: goflagr.NewAPIClient(cfg),
+	}
+
+	return e
 }
 
 type evaluator struct {
