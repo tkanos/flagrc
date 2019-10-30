@@ -53,10 +53,6 @@ func (e *evaluator) WithCacheTimeout(timeout time.Duration) {
 }
 
 func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext) (goflagr.EvalResult, *http.Response, error) {
-	if body.EntityID != "" {
-		return e.client.EvaluationApi.PostEvaluation(ctx, body)
-	}
-
 	// Evaluate locally
 	//https://github.com/checkr/flagr/blob/master/pkg/handler/eval.go
 
@@ -76,12 +72,6 @@ func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext
 }
 
 func (e *evaluator) PostEvaluationBatch(ctx context.Context, body goflagr.EvaluationBatchRequest) (goflagr.EvaluationBatchResponse, *http.Response, error) {
-	for _, entity := range body.Entities {
-		if entity.EntityID != "" {
-			return e.client.EvaluationApi.PostEvaluationBatch(ctx, body)
-		}
-	}
-
 	// EvaluateBatch locally
 	//https://github.com/checkr/flagr/blob/master/pkg/handler/eval.go
 
