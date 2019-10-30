@@ -19,7 +19,7 @@ type Evaluator interface {
 }
 
 type ClientOptions struct {
-	EvalCacheRefreshTimeout time.Duration
+	EvalCacheRefreshInterval time.Duration
 }
 
 type singleton struct {
@@ -27,6 +27,7 @@ type singleton struct {
 }
 
 var once sync.Once
+var onceUponATime sync.Once
 var instance *singleton
 
 func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (ev Evaluator) {
@@ -39,7 +40,11 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 					},
 				}
 			})
+
 			ev = instance
+
+			go tryToConnect(cfg)
+
 		}
 	}()
 
@@ -53,8 +58,8 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 	config.Config.DBDriver = "json_http"
 	config.Config.DBConnectionStr = cfg.BasePath + "/export/eval_cache/json"
 
-	if clienConfig.EvalCacheRefreshTimeout != 0 {
-		config.Config.EvalCacheRefreshTimeout = clienConfig.EvalCacheRefreshTimeout
+	if clienConfig.EvalCacheRefreshInterval != 0 {
+		config.Config.EvalCacheRefreshInterval = clienConfig.EvalCacheRefreshInterval
 	}
 
 	if cfg.HTTPClient == nil {
@@ -67,7 +72,7 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 
 	once.Do(func() {
 		instance = &singleton{
-			Evaluator: &e,
+			Evaluator: e,
 		}
 	})
 
@@ -76,7 +81,7 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 	return
 }
 
-func startEvaluation(cfg *goflagr.Configuration) evaluator {
+func startEvaluation(cfg *goflagr.Configuration) *evaluator {
 	ec := handler.GetEvalCache()
 	ec.Start()
 
@@ -84,7 +89,45 @@ func startEvaluation(cfg *goflagr.Configuration) evaluator {
 		client: goflagr.NewAPIClient(cfg),
 	}
 
-	return e
+	return &e
+}
+
+func tryToConnect(cfg *goflagr.Configuration) {
+
+	//Create Ticker
+	ticker := time.NewTicker(config.Config.EvalCacheRefreshInterval)
+
+	//Create a function that will startEvaluation and recover if panic
+	f := func(cfg *goflagr.Configuration) (b bool) {
+		defer func() {
+			if r := recover(); r != nil {
+				b = false
+			}
+		}()
+
+		e := startEvaluation(cfg)
+		if e != nil { // if the evaluation works, we set the new evaluator
+			onceUponATime.Do(func() {
+				instance.Evaluator = e
+			})
+			b = true
+		}
+		return
+	}
+
+	// Tick and call f functions that will try to connect to the client
+	go func() {
+		for {
+			select {
+			case _ = <-ticker.C:
+				b := f(cfg)
+				if b == true {
+					//if we succeed to connect we close the go routine
+					return
+				}
+			}
+		}
+	}()
 }
 
 type evaluator struct {
