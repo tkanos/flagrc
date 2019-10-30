@@ -43,11 +43,10 @@ pkg: github.com/tkanos/flagrc
 BenchmarkGoFlagr_WithoutEntityID-8           100          19656778 ns/op
 BenchmarkGoFlagr_WithEntityID-8              100          19679028 ns/op
 BenchmarkFlagrc_WithoutEntityID-8         500000              3393 ns/op
-BenchmarkFlagrc_WithEntityID-8               100          19624108 ns/op
+BenchmarkFlagrc_WithEntityID-8            500000              3413 ns/op
 PASS
 ok      github.com/tkanos/flagrc        7.779s
 ```
 
 Todo : 
 - unit tests (how to mock client)
-- cache in a map the entityId response - enabled by config (default false)
