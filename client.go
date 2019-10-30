@@ -14,23 +14,27 @@ import (
 type Evaluator interface {
 	PostEvaluation(ctx context.Context, body goflagr.EvalContext) (goflagr.EvalResult, *http.Response, error)
 	PostEvaluationBatch(ctx context.Context, body goflagr.EvaluationBatchRequest) (goflagr.EvaluationBatchResponse, *http.Response, error)
-
-	withConfig
 }
 
-type withConfig interface {
-	WithCacheTimeout(timeout time.Duration)
+type ClientOptions struct {
+	EvalCacheRefreshTimeout time.Duration
 }
 
-type evaluator struct {
-	client *goflagr.APIClient
-}
+func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) Evaluator {
 
-func NewClient(cfg *goflagr.Configuration) Evaluator {
+	clienConfig := &ClientOptions{}
+
+	for _, option := range options {
+		option(clienConfig)
+	}
 
 	config.Config.EvalOnlyMode = true
 	config.Config.DBDriver = "json_http"
 	config.Config.DBConnectionStr = cfg.BasePath + "/export/eval_cache/json"
+
+	if clienConfig.EvalCacheRefreshTimeout != 0 {
+		config.Config.EvalCacheRefreshTimeout = clienConfig.EvalCacheRefreshTimeout
+	}
 
 	ec := handler.GetEvalCache()
 	ec.Start()
@@ -48,8 +52,8 @@ func NewClient(cfg *goflagr.Configuration) Evaluator {
 	return &e
 }
 
-func (e *evaluator) WithCacheTimeout(timeout time.Duration) {
-	config.Config.EvalCacheRefreshTimeout = timeout
+type evaluator struct {
+	client *goflagr.APIClient
 }
 
 func (e *evaluator) PostEvaluation(ctx context.Context, body goflagr.EvalContext) (goflagr.EvalResult, *http.Response, error) {
