@@ -3,6 +3,7 @@ package flagrc
 import (
 	"context"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/checkr/flagr/pkg/config"
@@ -19,6 +20,13 @@ type Evaluator interface {
 type ClientOptions struct {
 	EvalCacheRefreshTimeout time.Duration
 }
+
+type singleton struct {
+	Evaluator
+}
+
+var once sync.Once
+var instance *singleton
 
 func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) Evaluator {
 
@@ -49,7 +57,13 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) Ev
 		client: goflagr.NewAPIClient(cfg),
 	}
 
-	return e
+	once.Do(func() {
+		instance = &singleton{
+			Evaluator: &e,
+		}
+	})
+
+	return instance
 }
 
 type evaluator struct {
