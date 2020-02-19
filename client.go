@@ -20,6 +20,8 @@ type Evaluator interface {
 
 type ClientOptions struct {
 	EvalCacheRefreshInterval time.Duration
+	LogrusLevel              string
+	LogrusFormat             string
 }
 
 type singleton struct {
@@ -54,12 +56,21 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 		option(clienConfig)
 	}
 
+	config.Config.PProfEnabled = false
 	config.Config.EvalOnlyMode = true
 	config.Config.DBDriver = "json_http"
 	config.Config.DBConnectionStr = cfg.BasePath + "/export/eval_cache/json"
 
 	if clienConfig.EvalCacheRefreshInterval != 0 {
 		config.Config.EvalCacheRefreshInterval = clienConfig.EvalCacheRefreshInterval
+	}
+
+	if clienConfig.LogrusLevel != "" {
+		config.Config.LogrusLevel = clienConfig.LogrusLevel
+	}
+
+	if clienConfig.LogrusFormat != "" {
+		config.Config.LogrusFormat = clienConfig.LogrusFormat
 	}
 
 	if cfg.HTTPClient == nil {
