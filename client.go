@@ -22,6 +22,7 @@ type ClientOptions struct {
 	EvalCacheRefreshInterval time.Duration
 	LogrusLevel              string
 	LogrusFormat             string
+	EvalLoggingEnabled       bool
 }
 
 type singleton struct {
@@ -60,6 +61,7 @@ func NewClient(cfg *goflagr.Configuration, options ...func(t *ClientOptions)) (e
 	config.Config.EvalOnlyMode = true
 	config.Config.DBDriver = "json_http"
 	config.Config.DBConnectionStr = cfg.BasePath + "/export/eval_cache/json"
+	config.Config.EvalLoggingEnabled = clienConfig.EvalLoggingEnabled
 
 	if clienConfig.EvalCacheRefreshInterval != 0 {
 		config.Config.EvalCacheRefreshInterval = clienConfig.EvalCacheRefreshInterval
