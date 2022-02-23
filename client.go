@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/checkr/flagr/pkg/config"
-	"github.com/checkr/flagr/pkg/handler"
-	"github.com/checkr/flagr/swagger_gen/models"
 	"github.com/checkr/goflagr"
+	"github.com/openflagr/flagr/pkg/config"
+	"github.com/openflagr/flagr/pkg/handler"
+	"github.com/openflagr/flagr/swagger_gen/models"
 )
 
 type Evaluator interface {
