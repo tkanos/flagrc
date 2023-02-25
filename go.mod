@@ -3,6 +3,11 @@ module github.com/tkanos/flagrc
 go 1.17
 
 require (
+	github.com/checkr/goflagr v0.0.0-20210326170947-e97f63ad2c23
+	github.com/openflagr/flagr v0.0.0-20211123152114-a696ab610c6e
+)
+
+require (
 	cloud.google.com/go v0.65.0 // indirect
 	cloud.google.com/go/pubsub v1.3.1 // indirect
 	github.com/DataDog/datadog-go v0.0.0-20180330214955-e67964b4021a // indirect
@@ -20,7 +25,6 @@ require (
 	github.com/bsm/ratelimit v2.0.0+incompatible // indirect
 	github.com/caarlos0/env v3.3.0+incompatible // indirect
 	github.com/certifi/gocertifi v0.0.0-20180118203423-deb3ae2ef261 // indirect
-	github.com/checkr/goflagr v0.0.0-20210326170947-e97f63ad2c23 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dchest/uniuri v0.0.0-20160212164326-8902c56451e9 // indirect
 	github.com/eapache/go-resiliency v1.2.0 // indirect
@@ -48,6 +52,7 @@ require (
 	github.com/google/go-cmp v0.5.4 // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5 // indirect
 	github.com/hashicorp/go-uuid v1.0.2 // indirect
+	github.com/hpcloud/tail v1.0.0 // indirect
 	github.com/jcmturner/aescts/v2 v2.0.0 // indirect
 	github.com/jcmturner/dnsutils/v2 v2.0.0 // indirect
 	github.com/jcmturner/gofork v1.0.0 // indirect
@@ -68,7 +73,6 @@ require (
 	github.com/meatballhat/negroni-logrus v0.0.0-20170801195057-31067281800f // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/newrelic/go-agent v2.1.0+incompatible // indirect
-	github.com/openflagr/flagr v0.0.0-20211123152114-a696ab610c6e // indirect
 	github.com/philhofer/fwd v1.0.0 // indirect
 	github.com/phyber/negroni-gzip v0.0.0-20180113114010-ef6356a5d029 // indirect
 	github.com/pierrec/lz4 v2.6.0+incompatible // indirect
@@ -88,21 +92,22 @@ require (
 	github.com/zhouzhuojie/withtimeout v0.0.0-20190405051827-12b39eb2edd5 // indirect
 	go.mongodb.org/mongo-driver v1.4.5 // indirect
 	go.opencensus.io v0.22.4 // indirect
-	golang.org/x/crypto v0.0.0-20210616213533-5ff15b29337e // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
-	golang.org/x/mod v0.3.0 // indirect
-	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20201208152858-08078c50e5b5 // indirect
-	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208 // indirect
-	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
-	golang.org/x/text v0.3.6 // indirect
-	golang.org/x/tools v0.0.0-20200825202427-b303f430e36d // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/api v0.30.0 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/genproto v0.0.0-20200825200019-8632dd797987 // indirect
 	google.golang.org/grpc v1.31.0 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/DataDog/dd-trace-go.v1 v1.9.0 // indirect
+	gopkg.in/fsnotify.v1 v1.4.7 // indirect
+	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
