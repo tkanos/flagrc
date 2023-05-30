@@ -1,17 +1,12 @@
 # FLAGRC
 
 Flagrc is a Flagr client for evaluator only. 
-The main difference with https://github.com/checkr/goflagr is that, flagrc only calls the /api/v1/evaluation endpoints 
-if your request has an EntityId on it.
+The main difference with https://github.com/checkr/goflagr is that,
 
-If you use an EntityID, flagr will make sure that this ID will always receive the same variant. 
-So flagrc ask to the server.
-Otherwise flagrc, will act as a flagr evaluator :
-- Loading in Memory all flags
-- Do the evaluation of the request locally.
-- Refresh each EvalCacheRefreshInterval the Flags for computation
+flagrc act as a local evaluator allowing you to instead of calling flagr server for each request, It will resolve all your request locally.
+In order to do that flagrc load in memory, each EvalCacheRefreshInterval (by default 3) second (in backgound) the configuration from the main server, then It can resolve/evaluate all request locally.
 
-flagrc uses all flagr function to act as a a real flagr Evaluator (except for EntityID).
+flagrc uses all flagr function to act as a a real flagr Evaluator.
 flagrc uses all goflagr signature.
 
 
